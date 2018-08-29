@@ -1,6 +1,6 @@
 const Article = require('../models/articleModel')
 
-const insertArticle  = async ctx => {
+const insertArticle = async ctx => {
     let newArticle = new Article({
         articleImgUrl: '',
         articleTitle: 'html华农兄弟：兄弟俩进大山摘的这些野果，看看有没有你没吃过的',
@@ -21,7 +21,20 @@ const insertArticle  = async ctx => {
     })
 }
 
+const findArticles = async ctx => {
+    return new Promise((resolve, reject) => {
+        Article.find({}, (err, result) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result)
+            }
+        })
+    })
+}
+
 
 module.exports = {
-    insertArticle: insertArticle
+    insertArticle: insertArticle,
+    findArticles: findArticles
 }

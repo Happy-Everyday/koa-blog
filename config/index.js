@@ -1,5 +1,5 @@
 module.exports = {
-    port: 8080,
+    port: 8888,
     dbUrl: "mongodb://localhost:27017/myblog",
     corsConfig: {
         origin: "*",

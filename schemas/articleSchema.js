@@ -6,12 +6,14 @@ const mongoose = require('mongoose')
 const articleSchema = new mongoose.Schema({
     articleImgUrl: String,
     articleTitle: String,
-    articleTime: {
+    articleCreatedTime: {
         type: Date,
         default: Date.now()
     },
-    articleTips: [ String ],
-    articledesc: String,
+    articleType: String,
+    articleText: String,
+    articleRender: String,
+    articleStatus: String,
     articleAplyNum: Number,
     articleReadNum: Number,
     articleLikeNum: Number

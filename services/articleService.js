@@ -1,15 +1,18 @@
 const Article = require('../models/articleModel')
 
 const insertArticle = async ctx => {
-    let newArticle = new Article({
-        articleImgUrl: '',
-        articleTitle: 'html华农兄弟：兄弟俩进大山摘的这些野果，看看有没有你没吃过的',
-        articledesc: '本视频拍摄于2017本视频拍摄于2017本视频拍摄于2017本视频拍摄于2017本视频拍摄于2017/11/22，这段时间会把之前拍摄的精彩视频全部更新到b站，后续新视频也将第一时间同步更22，这段时间会把之前拍摄的精彩视频全部更新到b站，后续新视频也将第一时间同步更新到b站，谢谢大家支持22，这段时间会把之前拍摄的精彩视频全部更新到b站，后续新视频也将第一时间同步更新到b站，谢谢大家支持新到b站，谢谢大家支持~视频拍摄于2017本视频拍摄于2017本视频拍摄于2017/11/22，这段时间会把之前拍摄的精彩视频全部更新到b站，后续新视频也将第一时间同步更22，这段时间会把之前拍摄的精彩视频全部更新到b站，后续新视频也将第一时间同步更新到b站，谢谢大家支持22，这段时间会把之前拍摄的精彩视频全部更新到b站，后续新视频也将第一时间同步更新到b站，谢谢大家支持新到b站，谢谢大家支持~',
-        articleTips: ['html'],
-        articleAplyNum: 12,
-        articleReadNum: 12,
-        articleLikeNum: 12
-    })
+    let articleObj = {
+        articleImgUrl: ctx.request.body.articleImgUrl,
+        articleTitle: ctx.request.body.articleTitle,
+        articleType: ctx.request.body.articleType,
+        articleText: ctx.request.body.articleText,
+        articleRender: ctx.request.body.articleRender,
+        articleStatus: ctx.request.body.articleStatus,
+        articleAplyNum: 0,
+        articleReadNum: 0,
+        articleLikeNum: 0
+    }
+    let newArticle = new Article(articleObj)
     return new Promise((resolve, reject) => {
         newArticle.save((err, result) => {
             if (err) {
@@ -22,6 +25,8 @@ const insertArticle = async ctx => {
 }
 
 const findArticles = async ctx => {
+    let searchObl
+    // if (ctx.request.query.articleTitle)
     return new Promise((resolve, reject) => {
         Article.find({}, (err, result) => {
             if (err) {

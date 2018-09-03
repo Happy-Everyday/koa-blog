@@ -8,7 +8,7 @@ const articleSchema = new mongoose.Schema({
     articleTitle: String,
     articleCreatedTime: {
         type: Date,
-        default: Date.now()
+        default: new Date()
     },
     articleType: String,
     articleText: String,

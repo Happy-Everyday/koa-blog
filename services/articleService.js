@@ -25,10 +25,18 @@ const insertArticle = async ctx => {
 }
 
 const findArticles = async ctx => {
-    let searchObl
-    // if (ctx.request.query.articleTitle)
+    let searchObl = {}
+    if (ctx.request.query.articleTitle != ''&& ctx.request.query.articleTitle != undefined) {
+        searchObl.articleTitle = new RegExp(ctx.request.query.articleTitle, 'i')
+    }
+    if (ctx.request.query.articleStatus != '' && ctx.request.query.articleStatus != undefined) {
+        searchObl.articleStatus = ctx.request.query.articleStatus
+    }
+    if (ctx.request.query.articleType != '' && ctx.request.query.articleType != undefined) {
+        searchObl.articleType = ctx.request.query.articleType
+    }
     return new Promise((resolve, reject) => {
-        Article.find({}, (err, result) => {
+        Article.find(searchObl, (err, result) => {
             if (err) {
                 reject(err)
             } else {
@@ -38,8 +46,23 @@ const findArticles = async ctx => {
     })
 }
 
+const deletArticle = async ctx => {
+    let deletArticleId = ctx.request.body.deletArticleId
+
+    return new Promise((resolve, reject) => {
+        Article.deleteOne({_id: deletArticleId}, (err) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve('ok')
+            }
+        })
+    })
+}
+
 
 module.exports = {
     insertArticle: insertArticle,
-    findArticles: findArticles
+    findArticles: findArticles,
+    deletArticle: deletArticle
 }

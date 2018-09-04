@@ -1,4 +1,4 @@
-const { insertArticle, findArticles, deletArticle } = require('../services/articleService')
+const { insertArticle, findArticles, updateArticle, deletArticle } = require('../services/articleService')
 
 const callbackGetArticleList = async ctx => {
     let currentPage = ctx.request.query.currentPage*1 - 1
@@ -18,6 +18,25 @@ const callbackGetArticleList = async ctx => {
     let result = await insertArticle(ctx)
     let res
     if (result._id !== undefined) {
+        res = {
+            code: '000000',
+            msg: '操作成功',
+            data: result
+        }
+    } else {
+        res = {
+            code: '666666',
+            msg: '操作失败',
+            data: result
+        }  
+    }
+    ctx.body = res
+ }
+
+ const callbackUpdateArticle = async ctx => {
+    let result = await updateArticle(ctx)
+    let res
+    if (result.ok === 1) {
         res = {
             code: '000000',
             msg: '操作成功',
@@ -62,6 +81,11 @@ const callbackGetArticleList = async ctx => {
          method: 'GET',
          path: '/api/getArticleList',
          cbFnc: callbackGetArticleList
+    },
+    {
+         method: 'POST',
+         path: '/api/updateArticle',
+         cbFnc: callbackUpdateArticle
     },
     {
          method: 'POST',

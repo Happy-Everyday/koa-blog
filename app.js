@@ -13,13 +13,13 @@ const controller = require('./middleware/controllers')
 const app = new Koa()
 
 db.connect(dbUrl, {useNewUrlParser: true})
+app.use(logger())
 
 app.use(bodyParser())
 app.use(cors(corsConfig))
 app.use(controller())
 app.use(router.routes())
 
-app.use(logger())
 app.listen(port)
 console.log(`.......................`)
 console.log(`app listen at ${port}`)

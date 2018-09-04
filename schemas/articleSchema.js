@@ -11,6 +11,7 @@ const articleSchema = new mongoose.Schema({
         default: new Date()
     },
     articleType: String,
+    articleTypeName: String,
     articleText: String,
     articleRender: String,
     articleStatus: String,

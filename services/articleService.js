@@ -5,9 +5,11 @@ const insertArticle = async ctx => {
         articleImgUrl: ctx.request.body.articleImgUrl,
         articleTitle: ctx.request.body.articleTitle,
         articleType: ctx.request.body.articleType,
+        articleTypeName: ctx.request.body.articleTypeName,
         articleText: ctx.request.body.articleText,
         articleRender: ctx.request.body.articleRender,
         articleStatus: ctx.request.body.articleStatus,
+        articleCreatedTime: new Date(),
         articleAplyNum: 0,
         articleReadNum: 0,
         articleLikeNum: 0
@@ -35,8 +37,32 @@ const findArticles = async ctx => {
     if (ctx.request.query.articleType != '' && ctx.request.query.articleType != undefined) {
         searchObl.articleType = ctx.request.query.articleType
     }
+    console.log(searchObl)
     return new Promise((resolve, reject) => {
         Article.find(searchObl, (err, result) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result)
+            }
+        })
+    })
+}
+
+const updateArticle = async ctx => {
+    let _id = ctx.request.body._id
+    let articleObj = {
+        articleImgUrl: ctx.request.body.articleImgUrl,
+        articleTitle: ctx.request.body.articleTitle,
+        articleType: ctx.request.body.articleType,
+        articleTypeName: ctx.request.body.articleTypeName,
+        articleText: ctx.request.body.articleText,
+        articleRender: ctx.request.body.articleRender,
+        articleStatus: ctx.request.body.articleStatus
+    }
+
+    return new Promise((resolve, reject) => {
+        Article.updateOne({_id: _id}, articleObj, (err, result) => {
             if (err) {
                 reject(err)
             } else {
@@ -64,5 +90,6 @@ const deletArticle = async ctx => {
 module.exports = {
     insertArticle: insertArticle,
     findArticles: findArticles,
+    updateArticle: updateArticle,
     deletArticle: deletArticle
 }

@@ -37,7 +37,6 @@ const findArticles = async ctx => {
     if (ctx.request.query.articleType != '' && ctx.request.query.articleType != undefined) {
         searchObl.articleType = ctx.request.query.articleType
     }
-    console.log(searchObl)
     return new Promise((resolve, reject) => {
         Article.find(searchObl, (err, result) => {
             if (err) {

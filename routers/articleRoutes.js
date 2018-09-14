@@ -1,6 +1,15 @@
 const { insertArticle, findArticles, updateArticle, deletArticle } = require('../services/articleService')
-
+const { checkAccessToken } = require('../services/loginService')
 const callbackGetArticleList = async ctx => {
+    let checkAccessTokenRes = await checkAccessToken(ctx)
+    if (!checkAccessTokenRes || checkAccessTokenRes.code == '666666') {
+        ctx.body = {
+            code: '666666',
+            msg: checkAccessTokenRes.msg || 'session失效',
+            data: checkAccessTokenRes.data || 0
+        }
+        return
+    }
     let currentPage = ctx.request.query.currentPage*1 - 1
     let pageSize = ctx.request.query.pageSize*1
     let result = await findArticles(ctx)
@@ -15,6 +24,15 @@ const callbackGetArticleList = async ctx => {
  }
 
  const callbackAddArticle = async ctx => {
+    let checkAccessTokenRes = await checkAccessToken(ctx)
+    if (!checkAccessTokenRes || checkAccessTokenRes.code == '666666') {
+        ctx.body = {
+            code: '666666',
+            msg: checkAccessTokenRes.msg || 'session失效',
+            data: checkAccessTokenRes.data || 0
+        }
+        return
+    }
     let result = await insertArticle(ctx)
     let res
     if (result._id !== undefined) {
@@ -34,6 +52,15 @@ const callbackGetArticleList = async ctx => {
  }
 
  const callbackUpdateArticle = async ctx => {
+    let checkAccessTokenRes = await checkAccessToken(ctx)
+    if (!checkAccessTokenRes || checkAccessTokenRes.code == '666666') {
+        ctx.body = {
+            code: '666666',
+            msg: checkAccessTokenRes.msg || 'session失效',
+            data: checkAccessTokenRes.data || 0
+        }
+        return
+    }
     let result = await updateArticle(ctx)
     let res
     if (result.ok === 1) {
@@ -53,6 +80,15 @@ const callbackGetArticleList = async ctx => {
  }
 
  const callbackDelArticle = async ctx => {
+    let checkAccessTokenRes = await checkAccessToken(ctx)
+    if (!checkAccessTokenRes || checkAccessTokenRes.code == '666666') {
+        ctx.body = {
+            code: '666666',
+            msg: checkAccessTokenRes.msg || 'session失效',
+            data: checkAccessTokenRes.data || 0
+        }
+        return
+    }
     let result = await deletArticle(ctx)
     let res
     if (result == 'ok') {

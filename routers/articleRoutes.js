@@ -1,15 +1,6 @@
 const { insertArticle, findArticles, updateArticle, deletArticle } = require('../services/articleService')
 const { checkAccessToken } = require('../services/loginService')
 const callbackGetArticleList = async ctx => {
-    let checkAccessTokenRes = await checkAccessToken(ctx)
-    if (!checkAccessTokenRes || checkAccessTokenRes.code == '666666') {
-        ctx.body = {
-            code: '666666',
-            msg: checkAccessTokenRes.msg || 'session失效',
-            data: checkAccessTokenRes.data || 0
-        }
-        return
-    }
     let currentPage = ctx.request.query.currentPage*1 - 1
     let pageSize = ctx.request.query.pageSize*1
     let result = await findArticles(ctx)

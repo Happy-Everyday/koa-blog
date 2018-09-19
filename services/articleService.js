@@ -48,6 +48,31 @@ const findArticles = async ctx => {
     })
 }
 
+const getArticleDetail = async ctx => {
+    let from = ctx.request.query.from || ''
+    let searchObl = {
+        _id: ctx.request.query.id
+    }
+    return new Promise((resolve, reject) => {
+        Article.findOne(searchObl, (err, result) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result)
+                if (from == 'cli') {
+                    Article.updateOne({_id: searchObl._id}, {articleReadNum: result.articleReadNum+1 }, (err, result) => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.log(result)
+                        }
+                    })
+                }
+            }
+        })
+    })
+}
+
 const updateArticle = async ctx => {
     let _id = ctx.request.body._id
     let articleObj = {
@@ -89,6 +114,7 @@ const deletArticle = async ctx => {
 module.exports = {
     insertArticle: insertArticle,
     findArticles: findArticles,
+    getArticleDetail: getArticleDetail,
     updateArticle: updateArticle,
     deletArticle: deletArticle
 }

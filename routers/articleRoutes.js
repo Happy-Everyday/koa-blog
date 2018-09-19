@@ -1,4 +1,4 @@
-const { insertArticle, findArticles, updateArticle, deletArticle } = require('../services/articleService')
+const { insertArticle, findArticles, getArticleDetail, updateArticle, deletArticle } = require('../services/articleService')
 const { checkAccessToken } = require('../services/loginService')
 const callbackGetArticleList = async ctx => {
     let currentPage = ctx.request.query.currentPage*1 - 1
@@ -11,6 +11,23 @@ const callbackGetArticleList = async ctx => {
             articleList: result.slice(currentPage*pageSize, currentPage*pageSize + pageSize),
             total: result.length
         }
+    }
+ }
+
+ const callbackGetArticleDetail = async ctx => {
+    if (ctx.request.query.id == '' || ctx.request.query.id == undefined) {
+        ctx.body = {
+            code: '0000112',
+            msg: 'id不能为空',
+            data: 0
+        }
+        return
+    }
+    let result = await getArticleDetail(ctx)
+    ctx.body = {
+        code: '000000',
+        msg: '成功',
+        data: result
     }
  }
 
@@ -109,6 +126,11 @@ const callbackGetArticleList = async ctx => {
          path: '/api/getArticleList',
          cbFnc: callbackGetArticleList
     },
+    {
+        method: 'GET',
+        path: '/api/getArticleDetail',
+        cbFnc: callbackGetArticleDetail
+   },
     {
          method: 'POST',
          path: '/api/updateArticle',

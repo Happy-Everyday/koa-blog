@@ -1,3 +1,5 @@
+const request = require('request');
+
 const callbackGetJifen = async ctx => {
     ctx.body = {
         code: '000000',
@@ -16,38 +18,60 @@ const callbackGetJifen = async ctx => {
  }
 
  const callbackGetJifenMIngxi = async ctx => {
-    ctx.body = {
-        code: '000000',
-        msg: '成功',
-        data: {
-            jifenList: [
-                {
-                    id: '0',
-                    time: '2019-02-02',
-                    jifen: '302',
-                    type: '消费积分'
-                },
-                {
-                    id: '1',
-                    time: '2019-02-02',
-                    jifen: '302',
-                    type: '消费积分'
-                },
-                {
-                    id: '2',
-                    time: '2019-02-02',
-                    jifen: '302',
-                    type: '消费积分'
-                },
-                {
-                    id: '3',
-                    time: '2019-02-02',
-                    jifen: '302',
-                    type: '消费积分'
-                }
-            ]
-        }
-    }
+    let pro = new Promise(function(resolve, reject){
+        request('https://www.bestlifebestyue.com/admin-api/api/getJifenList', function(err, res, body) {
+            if (err) {reject(err)}
+            console.log(body)
+            resolve(body)
+        })
+    })
+    pro.then(function(res) {
+        ctx.body = res
+    })
+    // ctx.body = {
+    //     code: '000000',
+    //     msg: '成功',
+    //     data: {
+    //         jifenList: [
+    //             {
+    //                 id: '0',
+    //                 time: '2019-02-02',
+    //                 jifen: '302',
+    //                 type: '消费积分'
+    //             },
+    //             {
+    //                 id: '1',
+    //                 time: '2019-02-02',
+    //                 jifen: '302',
+    //                 type: '消费积分'
+    //             },
+    //             {
+    //                 id: '2',
+    //                 time: '2019-02-02',
+    //                 jifen: '302',
+    //                 type: '消费积分'
+    //             },
+    //             {
+    //                 id: '3',
+    //                 time: '2019-02-02',
+    //                 jifen: '302',
+    //                 type: '消费积分'
+    //             }
+    //         ]
+    //     }
+    // }
+ }
+
+ const callbackGetJifenMIngxiByReq = async ctx => {
+    let pro = new Promise(function(resolve, reject){
+        request('https://www.bestlifebestyue.com/admin-api/api/getJifenList', function(err, res, body) {
+            if (err) {reject(err)}
+            resolve(body)
+        })
+    })
+    pro.then(function(res) {
+        ctx.body = res
+    })
  }
  
  module.exports = [
@@ -60,5 +84,10 @@ const callbackGetJifen = async ctx => {
         method: 'GET',
         path: '/api/getJifenList',
         cbFnc: callbackGetJifenMIngxi
-    }
+    },
+    {
+       method: 'GET',
+       path: '/proxy/getJifenList',
+       cbFnc: callbackGetJifenMIngxiByReq
+   }
  ]

@@ -12,7 +12,7 @@ const controller = require('./middleware/controllers')
 
 const app = new Koa()
 
-// db.connect(dbUrl, {useNewUrlParser: true})
+db.connect(dbUrl, {useNewUrlParser: true})
 app.use(logger())
 
 app.use(bodyParser())

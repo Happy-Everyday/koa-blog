@@ -7,7 +7,7 @@ mongoose.connection.on('connected', function () {
     console.log('mongodb connect success!!!')
 });
 mongoose.connection.on('disconnected', () => {
-    console.log('mongodb disconnected success!!!')
+    console.log('mongodb disconnected !!!')
 })
 
 module.exports = mongoose

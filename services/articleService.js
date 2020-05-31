@@ -1,7 +1,11 @@
 const Article = require('../models/articleModel')
 
 const insertArticle = async ctx => {
+    let accessToken = ctx.request.headers['access-token']
+    let author = 'someone'
+    author = accessToken.split("|")[0]
     let articleObj = {
+        articleAuthor: author,
         articleImgUrl: ctx.request.body.articleImgUrl,
         articleTitle: ctx.request.body.articleTitle,
         articleType: ctx.request.body.articleType,
